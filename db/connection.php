@@ -9,5 +9,5 @@ try {
   $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $username, $password);
   $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-  response(['success' => false, 'error' => 'Connection error: ' . $e->getMessage()], 500);
+  response(['success' => false, 'error' => 'An error occured'], 500);
 }
