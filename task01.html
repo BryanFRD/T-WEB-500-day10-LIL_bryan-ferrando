@@ -22,14 +22,11 @@
   <script>
     const onSubmit = (event) => {
       event.preventDefault();
-      fetch('task01.php', {
-        method: 'POST',
+      const name = document.getElementById('name').value;
+      fetch(`task01.php?name=${name}`, {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          name: document.getElementById('name').value
-        })
       })
       .then(response => response.json())
       .then(data => {
