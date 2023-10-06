@@ -39,18 +39,32 @@ foreach($brandRegex as $regex){
 }
 
 $sql = <<<SQL
+  SELECT * from ajax_products.products WHERE type = ?
+SQL;
+
+$result = fetchAll($pdo, $sql, [$type]);
+
+if(count($result) == 0){
+  response(['success' => false, 'error' => "$type: This type exists in databases."], 400);
+}
+
+$sql = <<<SQL
   SELECT * from ajax_products.products WHERE type = ? AND brand = ?
 SQL;
 
-$stmt = $pdo->prepare($sql);
-$stmt->execute([$type, $brand]);
-$result = $stmt->fetchAll();
+$result = fetchAll($pdo, $sql, [$type, $brand]);
 
 if(count($result) > 0){
   response(['success' => false, 'error' => "$brand: This brand with type '$type' already exist!"], 400);
 }
 
 response(['success' => true, 'message' => 'Data is valid.'], 200);
+
+function fetchAll($pdo, $sql, $data){
+  $stmt = $pdo->prepare($sql);
+  $stmt->execute($data);
+  return $stmt->fetchAll();
+}
 
 function response($data, $code = 200){
   http_response_code($code);
