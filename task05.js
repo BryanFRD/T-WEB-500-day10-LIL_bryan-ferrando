@@ -32,7 +32,6 @@ const handleSubmit = (event) => {
         } else {
           alert.classList.add('d-none');
           for(let elt of table.querySelectorAll('td')){
-            console.log(elt.dataset);
             elt.innerText = data.product[elt.dataset.field];
           }
           table.classList.remove('d-none');
