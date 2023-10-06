@@ -64,7 +64,7 @@ SQL;
 $result = fetchAll($pdo, $sql, [$type]);
 
 if(count($result) == 0){
-  response(['success' => false, 'error' => "$type: This type exists in databases."], 400);
+  response(['success' => false, 'error' => "$type: This type doesn't exist in databases."], 400);
 }
 
 $sql = <<<SQL
@@ -78,33 +78,45 @@ if(count($result) == 0){
 }
 
 $sql = <<<SQL
+  SELECT * from ajax_products.products WHERE brand = ?
+SQL;
+
+$result = fetchAll($pdo, $sql, [$brand]);
+
+if(count($result) == 0){
+  response(['success' => false, 'error' => "$brand: This brand doesn't exist in databases."]);
+}
+
+$sql = <<<SQL
   SELECT * from ajax_products.products WHERE type = ? AND brand = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$type, $brand]);
 
-if(count($result) > 0){
-  response(['success' => false, 'error' => "$brand: This brand with type '$type' already exist!"], 400);
+if(count($result) == 0){
+  response(['success' => false, 'error' => "$brand: This brand with type '$type' doesn't exist!"], 400);
 }
 
 $priceSeparator = $price[0];
 $price = substr($price, 1);
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ? AND brand = ? AND price ? ?
+  SELECT * from ajax_products.products WHERE type = ? AND brand = ? AND price $priceSeparator ?
 SQL;
 
-$result = fetchAll($pdo, $sql, [$type, $brand, $priceSeparator, $price]);
+$result = fetchAll($pdo, $sql, [$type, $brand, $price]);
 
 if(count($result) == 0){
   response(['success' => false, 'error' => "$price: No products found at this price."], 400);
 }
 
-if($result[0]['stock'] >= $stock){
-  response(['success' => false, 'error' => "$stock: Sorry, we don't have enough stock, we only have"], 400);
+$product = array_diff_key($result[0], array_flip([0, 1, 2, 3, 4]));
+
+if($product['stock'] < $stock){
+  response(['success' => false, 'error' => "$stock: Sorry, we don't have enough stock, we only have " . $product['stock']], 400);
 }
 
-response(['success' => true, 'message' => 'Data is valid.'], 200);
+response(['success' => true, 'product' => $product], 200);
 
 function fetchAll($pdo, $sql, $data){
   $stmt = $pdo->prepare($sql);

@@ -27,8 +27,8 @@
           <li class="text-danger" data-regex="^[a-zA-Z0-9&-]*$">Only allows alphanumeric characters, - and &</li>
         </ul>
       </div>
-      <div class="">
-        <div class="mb-3">
+      <div class="row gap-2">
+        <div class="mb-3 col">
           <label for="price" class="form-label">Price</label>
           <input type="text" name="price" class="form-control" id="price" aria-describedby="priceHelp" value="">
           <ul id="priceHelp">
@@ -36,7 +36,7 @@
             <li class="text-danger" data-regex="\d{1,5}$">Its length needs to be between 2 and 5.</li>
           </ul>
         </div>
-        <div class="mb-3">
+        <div class="mb-3 col">
           <label for="stock" class="form-label">Number</label>
           <input type="text" name="stock"  class="form-control" id="stock" aria-describedby="stockHelp" value="">
           <ul id="stockHelp">
@@ -46,8 +46,28 @@
       </div>
       <button type="submit" class="btn btn-success">Submit</button>
     </form>
-    <div class="alert alert-success d-none mt-5" role="alert">
+    <div class="alert alert-danger d-none mt-5" role="alert">
     </div>
+    <table class="table d-none">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Type</th>
+          <th>Brand</th>
+          <th>Price</th>
+          <th>Number</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td data-field="id"></td>
+          <td data-field="type"></td>
+          <td data-field="brand"></td>
+          <td data-field="price"></td>
+          <td data-field="stock"></td>
+        </tr>
+      </tbody>
+    </table>
   </main>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
   <script src="./task05.js"></script>

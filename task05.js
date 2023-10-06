@@ -3,7 +3,10 @@ const brandRegex = /^[a-zA-Z0-9&\-]{2,20}$/;
 const form = document.querySelector('form');
 const button = document.querySelector('button[type="submit"]');
 const canSubmit = [false, false, false, false];
+const alert = document.querySelector('.alert');
+const table = document.querySelector('table');
 
+const inputs = [[type, typeHelp], [brand, brandHelp]]
 
 type.addEventListener('keyup', ({currentTarget}) => handleDynamicErrors(currentTarget, typeHelp, 0));
 brand.addEventListener('keyup', ({currentTarget}) => handleDynamicErrors(currentTarget, brandHelp, 1));
@@ -19,15 +22,21 @@ const handleSubmit = (event) => {
   const stock = formData.get('stock');
   
   if(type.match(typeRegex) && brand.match(brandRegex)) {
-    fetch(`task05.php?type=${type}&brand=${brand}&price=${price}&stock=${stock}`)
+    fetch(`task05.php?type=${type}&brand=${brand}&price=${price}&number=${stock}`)
       .then(response => response.json())
       .then(data => {
-        const alert = document.querySelector('.alert');
-        alert.classList.remove('d-none');
-        alert.classList.add('d-block');
-        alert.classList.add(data.success ? 'alert-success' : 'alert-danger');
-        alert.classList.remove(!data.success ? 'alert-success' : 'alert-danger');
-        alert.innerText = data.success ? data.message : data.error;
+        if(!data.success){
+          alert.innerText = data.error;
+          alert.classList.remove('d-none');
+          table.classList.add('d-none');
+        } else {
+          alert.classList.add('d-none');
+          for(let elt of table.querySelectorAll('td')){
+            console.log(elt.dataset);
+            elt.innerText = data.product[elt.dataset.field];
+          }
+          table.classList.remove('d-none');
+        }
       });
   }
 }
