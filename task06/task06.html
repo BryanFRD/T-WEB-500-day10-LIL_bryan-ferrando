@@ -9,7 +9,10 @@
 </head>
 <body class="vh-100 py-5">
   <main class="container d-flex flex-column h-100 gap-5">
-    <div id="chatBox" class="d-flex flex-column border border-1 border-dark rounded-4 justify-content-end gap-3 align-items-start px-3 pb-3">
+    <div class="overflow-hidden border border-1 border-dark rounded-4">
+      <div id="chatBox" class="d-flex flex-column flex-grow-1 overflow-auto gap-3 align-items-start p-3">
+        <div class="m-auto"></div>
+      </div>
     </div>
     <form id="form" class="d-flex flex-column gap-4">
       <div class="row align-items-center">
