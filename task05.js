@@ -22,6 +22,8 @@ const handleSubmit = (event) => {
   const stock = formData.get('stock');
   
   if(type.match(typeRegex) && brand.match(brandRegex)) {
+    const tbody = table.querySelector('tbody');
+    tbody.innerHTML = '';
     fetch(`task05.php?type=${type}&brand=${brand}&price=${price}&number=${stock}`)
       .then(response => response.json())
       .then(data => {
@@ -31,9 +33,18 @@ const handleSubmit = (event) => {
           table.classList.add('d-none');
         } else {
           alert.classList.add('d-none');
-          for(let elt of table.querySelectorAll('td')){
-            elt.innerText = data.product[elt.dataset.field];
+          console.log(data.products)
+          
+          for(let product of data.products){
+            const tr = document.createElement('tr');
+            for(let th of table.querySelectorAll('th')){
+              const td = document.createElement('td');
+              td.innerText = product[th.dataset.field];
+              tr.appendChild(td);
+            }
+            tbody.appendChild(tr);
           }
+          
           table.classList.remove('d-none');
         }
       });

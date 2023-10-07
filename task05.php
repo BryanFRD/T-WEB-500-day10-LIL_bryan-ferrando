@@ -101,27 +101,34 @@ $priceSeparator = $price[0];
 $price = substr($price, 1);
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ? AND brand = ? AND price $priceSeparator ?
+  SELECT *, (?) as number from ajax_products.products WHERE type = ? AND brand = ? AND price $priceSeparator ?
 SQL;
 
-$result = fetchAll($pdo, $sql, [$type, $brand, $price]);
+$result = fetchAll($pdo, $sql, [$stock, $type, $brand, $price]);
 
 if(count($result) == 0){
   response(['success' => false, 'error' => "$price: No products found at this price."], 400);
 }
 
-$product = array_diff_key($result[0], array_flip([0, 1, 2, 3, 4]));
-
-if($product['stock'] < $stock){
-  response(['success' => false, 'error' => "$stock: Sorry, we don't have enough stock, we only have " . $product['stock']], 400);
+$minStock = null;
+foreach(array_values($result) as $k => $product){
+  $minStock = (!isset($minStock) || $minStock > $product['stock']) ? $product['stock'] : $minStock;
+  
+  if($product['stock'] < $stock){
+    array_splice($result, $k, 1);
+  }
 }
 
-response(['success' => true, 'product' => $product], 200);
+if(count($result) == 0){
+  response(['success' => false, 'error' => "$stock: Sorry, we don't have enough stock, we only have " . ($minStock ?? 0) . ' stock.'], 400);
+}
+
+response(['success' => true, 'products' => $result], 200);
 
 function fetchAll($pdo, $sql, $data){
   $stmt = $pdo->prepare($sql);
   $stmt->execute($data);
-  return $stmt->fetchAll();
+  return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 function response($data, $code = 200){
