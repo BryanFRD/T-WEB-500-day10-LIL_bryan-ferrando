@@ -1,0 +1,8 @@
+.resize-none {
+  resize: none;
+}
+
+#chatBox {
+  max-height: 50vh;
+  overflow-y: scroll !important;
+}
