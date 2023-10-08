@@ -9,10 +9,42 @@
 </head>
 <body class="vh-100 py-5">
   <main class="container d-flex flex-column h-100 gap-5">
-    <div class="overflow-hidden border border-1 border-dark rounded-4">
-      <div id="chatBox" class="d-flex flex-column flex-grow-1 overflow-auto gap-3 align-items-start p-3">
-        <div class="m-auto"></div>
+    <div class="overflow-hidden border border-1 border-dark rounded-4 position-relative">
+      <div id="chatBox" class="d-flex flex-column flex-grow-1 overflow-auto gap-3 align-items-start p-3 pt-0">
       </div>
+      <button id="refreshChat" class="btn btn-success position-absolute top-0 end-0 my-2 mx-4 text-center">
+        <span>Refresh</span>
+        <div>
+          <span>Refreshing</span>
+          <svg version="1.1" id="L4" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+            <circle fill="#fff" stroke="none" cx="6" cy="50" r="6">
+              <animate
+                attributeName="opacity"
+                dur="1s"
+                values="0;1;0"
+                repeatCount="indefinite"
+                begin="0.1"/>    
+            </circle>
+            <circle fill="#fff" stroke="none" cx="26" cy="50" r="6">
+              <animate
+                attributeName="opacity"
+                dur="1s"
+                values="0;1;0"
+                repeatCount="indefinite" 
+                begin="0.2"/>       
+            </circle>
+            <circle fill="#fff" stroke="none" cx="46" cy="50" r="6">
+              <animate
+                attributeName="opacity"
+                dur="1s"
+                values="0;1;0"
+                repeatCount="indefinite" 
+                begin="0.3"/>     
+            </circle>
+          </svg>
+        </div>
+      </button>
     </div>
     <form id="form" class="d-flex flex-column gap-4">
       <div class="row align-items-center">

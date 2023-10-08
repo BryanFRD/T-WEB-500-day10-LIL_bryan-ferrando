@@ -3,6 +3,27 @@
 }
 
 #chatBox {
-  height: 50vh;
-  max-height: 50vh;
+  height: 45vh;
+  max-height: 45vh;
+}
+
+#refreshChat svg {
+  width: 1em;
+  height: 1em;
+}
+
+#refreshChat[disabled] > span {
+  display: none;
+}
+
+#refreshChat[disabled] > div {
+  display: inline-block;
+}
+
+#refreshChat:not([disabled]) > div {
+  display: none;
+}
+
+#refreshChat:not([disabled]) > span {
+  display: inline-block;
 }
