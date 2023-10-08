@@ -3,6 +3,9 @@
 header('Content-Type: application/json');
 require('db/connection.php');
 
+$productsTableSQL = file_get_contents("resources/ajax_products.sql");
+generateTable($pdo, $dbname, 'products', $productsTableSQL);
+
 $type = strtolower($_GET['type'] ?? '');
 $brand = strtolower($_GET['brand'] ?? '');
 
