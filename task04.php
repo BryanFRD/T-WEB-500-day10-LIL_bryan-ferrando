@@ -39,7 +39,7 @@ foreach($brandRegex as $regex){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE type = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$type]);
@@ -49,7 +49,7 @@ if(count($result) == 0){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ? AND brand = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE type = ? AND brand = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$type, $brand]);
