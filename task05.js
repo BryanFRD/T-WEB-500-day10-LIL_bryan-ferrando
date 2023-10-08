@@ -25,7 +25,13 @@ const handleSubmit = (event) => {
     const tbody = table.querySelector('tbody');
     tbody.innerHTML = '';
     fetch(`task05.php?type=${type}&brand=${brand}&price=${price}&number=${stock}`)
-      .then(response => response.json())
+      .then(response => {
+        const json = response.json().catch((err) => {
+          console.log(err);
+          ({success: false, error: 'Something went wrong'})
+        });
+        return json;
+      })
       .then(data => {
         if(!data.success){
           alert.innerText = data.error;

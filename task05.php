@@ -3,6 +3,9 @@
 header('Content-Type: application/json');
 require('db/connection.php');
 
+$productsTableSQL = file_get_contents("resources/ajax_products.sql");
+generateTable($pdo, $dbname, 'products', $productsTableSQL);
+
 $type = strtolower($_GET['type'] ?? '');
 $brand = strtolower($_GET['brand'] ?? '');
 $price = strtolower($_GET['price'] ?? '');
@@ -58,7 +61,7 @@ foreach($brandRegex as $regex){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE type = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$type]);
@@ -68,7 +71,7 @@ if(count($result) == 0){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE brand = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE brand = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$brand]);
@@ -78,7 +81,7 @@ if(count($result) == 0){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE brand = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE brand = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$brand]);
@@ -88,7 +91,7 @@ if(count($result) == 0){
 }
 
 $sql = <<<SQL
-  SELECT * from ajax_products.products WHERE type = ? AND brand = ?
+  SELECT * from bryan_ferrando_web_day10.products WHERE type = ? AND brand = ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$type, $brand]);
@@ -101,7 +104,7 @@ $priceSeparator = $price[0];
 $price = substr($price, 1);
 
 $sql = <<<SQL
-  SELECT *, (?) as number from ajax_products.products WHERE type = ? AND brand = ? AND price $priceSeparator ?
+  SELECT *, (?) as number from bryan_ferrando_web_day10.products WHERE type = ? AND brand = ? AND price $priceSeparator ?
 SQL;
 
 $result = fetchAll($pdo, $sql, [$stock, $type, $brand, $price]);
